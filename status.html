@@ -1,0 +1,77 @@
+<html>
+<head>
+    <title>Status page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.css">
+    <link rel="stylesheet" href="css/status.css">
+</head>
+<body>
+
+<div class="ui text container">
+
+    <h1 class="ui dividing header">
+        <i class="bicycle icon" id="application-icon"></i> <span id="application-name">System status</span>
+    </h1>
+    <div class="ui grey horizontal basic label right" id="application-version">0.0.0</div>
+    <p id="application-description">Version</p>
+
+    <div class="ui negative message hidden" id="application-errors">
+        <div class="header">
+            The following healthchecks have failed:
+        </div>
+        <div id="application-errors-details"></div>
+    </div>
+
+    <!-- Health check template: -->
+    <script id="status" type="text/x-jsrender">
+    {{props details}}
+        <div class="title">
+            <i class="dropdown icon"></i>{{>key}}
+            <div class="ui {{if prop.status == "UP"}}green{{else}}red{{/if}} horizontal label right">{{>prop.status}}</div>
+        </div>
+        <div class="content">
+            <p>
+                <table class="ui celled table">
+                {{props prop.details}}
+                    <tr>
+                        <td>{{>key}}</td><td>{{>prop}}</td>
+                    </tr>
+                {{/props}}
+                </table>
+            </p>
+        </div>
+    {{/props}}
+    </script>
+
+    <!-- Error details template: -->
+    <script id="health-errors" type="text/x-jsrender">
+    <ul>
+    {{for errors}}
+        <li>{{>}}</li>
+    {{/for}}
+    </ul>
+    </script>
+
+    <h3>Health checks</h3>
+    <p>Show a list of the currently configured health checks in the system and their respective status.</p>
+
+    <div class="ui styled fluid accordion">
+        <div id="result"></div>
+
+        <div class="ui segment" id="status-loading">
+            <div class="ui active inverted dimmer">
+                <div class="ui text loader">Loading</div>
+            </div>
+            <img src="images/short-paragraph.png" />
+            <p></p>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsrender@0.9.90/jsrender.min.js"></script>
+<script src="js/status.js"></script>
+
+</body>
+</html>
