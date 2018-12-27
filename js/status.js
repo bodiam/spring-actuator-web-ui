@@ -13,6 +13,12 @@ $.get("/actuator/info", function(data) {
 });
 
 $.get("/actuator/health", function(data) {
+    renderHealth(data);
+}).fail(function(data) {
+    renderHealth(data.responseJSON);
+});
+
+function renderHealth(data) {
     // Render health results
     var tmpl = $.templates("#status"); // Get compiled template
     var html = tmpl.render(data);      // Render template using data - as HTML string
@@ -37,4 +43,4 @@ $.get("/actuator/health", function(data) {
         $("#application-errors-details").html(errorsHtml);
         $("#application-errors").removeClass('hidden');
     }
-});
+}
